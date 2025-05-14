@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Management - Ayam Bakaran</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+        .login-container {
+            max-width: 400px;
+            margin: 100px auto;
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        }
+        .admin-container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+            display: none;
+        }
+        h1 {
+            color: #d35400;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        h2 {
+            color: #e67e22;
+            border-bottom: 2px solid #e67e22;
+            padding-bottom: 10px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+        input, select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: #e67e22;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            width: 100%;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #d35400;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #e67e22;
+            color: white;
+        }
+        tr:hover {
+            background-color: #f5f5f5;
+        }
+        .dashboard-cards {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 30px;
+        }
+        .card {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 23%;
+            text-align: center;
+        }
+        .card h3 {
+            color: #e67e22;
+            margin-top: 0;
+        }
+        .card p {
+            font-size: 24px;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+        .nav {
+            background-color: #d35400;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        .nav a {
+            color: white;
+            text-decoration: none;
+            margin-right: 20px;
+            font-weight: 600;
+            padding: 5px 10px;
+            border-radius: 4px;
+        }
+        .nav a:hover {
+            background-color: #e67e22;
+        }
+        .active {
+            background-color: #e67e22;
+        }
+        .error {
+            color: red;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Login Section -->
+    <div class="login-container" id="loginSection">
+        <h1>Admin Login - Ayam Bakaran</h1>
+        <div id="errorMessage" class="error"></div>
+        <div class="form-group">
+            <label for="username">Username</label>
+            <input type="text" id="username" placeholder="Enter username">
+        </div>
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" placeholder="Enter password">
+        </div>
+        <button onclick="login()">Login</button>
+    </div>
+
+    <!-- Admin Dashboard (Hidden by default) -->
+    <div class="admin-container" id="adminDashboard">
+        <div class="nav">
+            <a href="#" class="active" onclick="showSection('dashboard')">Dashboard</a>
+            <a href="#" onclick="showSection('menu')">Menu Management</a>
+            <a href="#" onclick="showSection('orders')">Orders</a>
+            <a href="#" onclick="showSection('reports')">Reports</a>
+            <a href="#" onclick="logout()" style="float: right;">Logout</a>
+        </div>
+
+        <!-- Dashboard Section -->
+        <div id="dashboard">
+            <h1>Admin Dashboard</h1>
+            <h2>Ayam Bakaran Management System</h2>
+            
+            <div class="dashboard-cards">
+                <div class="card">
+                    <h3>Today's Orders</h3>
+                    <p>47</p>
+                    <span>+12% from yesterday</span>
+                </div>
+                <div class="card">
+                    <h3>Monthly Revenue</h3>
+                    <p>Rp 12,450,000</p>
+                    <span>+8% from last month</span>
+                </div>
+                <div class="card">
+                    <h3>Popular Item</h3>
+                    <p>Ayam Bakar Spesial</p>
+                    <span>32 orders today</span>
+                </div>
+                <div class="card">
+                    <h3>Customer Rating</h3>
+                    <p>4.7 ★</p>
+                    <span>from 56 reviews</span>
+                </div>
+            </div>
+
+            <h2>Recent Orders</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Order ID</th>
+                        <th>Customer</th>
+                        <th>Items</th>
+                        <th>Total</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>#AB-1001</td>
+                        <td>John Doe</td>
+                        <td>Ayam Bakar Spesial (2), Es Teh (2)</td>
+                        <td>Rp 85,000</td>
+                        <td>Completed</td>
+                    </tr>
+                    <tr>
+                        <td>#AB-1002</td>
+                        <td>Jane Smith</td>
+                        <td>Ayam Bakar Pedas (1), Nasi Goreng (1)</td>
+                        <td>Rp 65,000</td>
+                        <td>In Progress</td>
+                    </tr>
+                    <tr>
+                        <td>#AB-1003</td>
+                        <td>Robert Johnson</td>
+                        <td>Ayam Bakar Madu (3), Es Jeruk (3)</td>
+                        <td>Rp 120,000</td>
+                        <td>Pending</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Menu Management Section -->
+        <div id="menu" style="display: none;">
+            <h1>Menu Management</h1>
+            
+            <h2>Add New Menu Item</h2>
+            <div class="form-group">
+                <label for="itemName">Item Name</label>
+                <input type="text" id="itemName" placeholder="Enter item name">
+            </div>
+            <div class="form-group">
+                <label for="itemCategory">Category</label>
+                <select id="itemCategory">
+                    <option value="main">Main Course</option>
+                    <option value="side">Side Dish</option>
+                    <option value="drink">Drink</option>
+                    <option value="dessert">Dessert</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="itemPrice">Price (Rp)</label>
+                <input type="number" id="itemPrice" placeholder="Enter price">
+            </div>
+            <div class="form-group">
+                <label for="itemDescription">Description</label>
+                <input type="text" id="itemDescription" placeholder="Enter description">
+            </div>
+            <button onclick="addMenuItem()">Add Menu Item</button>
+            
+            <h2>Current Menu</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Category</th>
+                        <th>Price</th>
+                        <th>Description</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="menuItems">
+                    <tr>
+                        <td>1</td>
+                        <td>Ayam Bakar Spesial</td>
+                        <td>Main Course</td>
+                        <td>Rp 35,000</td>
+                        <td>Grilled chicken with special spices</td>
+                        <td>
+                            <button style="padding: 5px 10px; width: auto; margin-right: 5px;">Edit</button>
+                            <button style="padding: 5px 10px; width: auto; background-color: #e74c3c;">Delete</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>Ayam Bakar Pedas</td>
+                        <td>Main Course</td>
+                        <td>Rp 32,000</td>
+                        <td>Spicy grilled chicken</td>
+                        <td>
+                            <button style="padding: 5px 10px; width: auto; margin-right: 5px;">Edit</button>
+                            <button style="padding: 5px 10px; width: auto; background-color: #e74c3c;">Delete</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td>Es Teh</td>
+                        <td>Drink</td>
+                        <td>Rp 8,000</td>
+                        <td>Iced tea</td>
+                        <td>
+                            <button style="padding: 5px 10px; width: auto; margin-right: 5px;">Edit</button>
+                            <button style="padding: 5px 10px; width: auto; background-color: #e74c3c;">Delete</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Orders Section -->
+        <div id="orders" style="display: none;">
+            <h1>Order Management</h1>
+            
+            <h2>Today's Orders</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Order ID</th>
+                        <th>Customer</th>
+                        <th>Items</th>
+                        <th>Total</th>
+                        <th>Time</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>#AB-1001</td>
+                        <td>John Doe</td>
+                        <td>Ayam Bakar Spesial (2), Es Teh (2)</td>
+                        <td>Rp 85,000</td>
+                        <td>12:30 PM</td>
+                        <td>
+                            <select>
+                                <option>Pending</option>
+                                <option selected>In Progress</option>
+                                <option>Completed</option>
+                                <option>Cancelled</option>
+                            </select>
+                        </td>
+                        <td>
+                            <button style="padding: 5px 10px; width: auto;">Update</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>#AB-1002</td>
+                        <td>Jane Smith</td>
+                        <td>Ayam Bakar Pedas (1), Nasi Goreng (1)</td>
+                        <td>Rp 65,000</td>
+                        <td>1:15 PM</td>
+                        <td>
+                            <select>
+                                <option selected>Pending</option>
+                                <option>In Progress</option>
+                                <option>Completed</option>
+                                <option>Cancelled</option>
+                            </select>
+                        </td>
+                        <td>
+                            <button style="padding: 5px 10px; width: auto;">Update</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Reports Section -->
+        <div id="reports" style="display: none;">
+            <h1>Sales Reports</h1>
+            
+            <div class="form-group" style="width: 200px;">
+                <label for="reportPeriod">Select Period</label>
+                <select id="reportPeriod">
+                    <option value="today">Today</option>
+                    <option value="week">This Week</option>
+                    <option value="month" selected>This Month</option>
+                    <option value="year">This Year</option>
+                    <option value="custom">Custom Range</option>
+                </select>
+            </div>
+            
+            <h2>Sales Summary</h2>
+            <div style="background: white; padding: 20px; border-radius: 8px; margin-bottom: 20px;">
+                <div style="display: flex; justify-content: space-between;">
+                    <div>
+                        <h3 style="margin-top: 0;">Total Sales</h3>
+                        <p style="font-size: 24px; font-weight: bold;">Rp 12,450,000</p>
+                    </div>
+                    <div>
+                        <h3 style="margin-top: 0;">Total Orders</h3>
+                        <p style="font-size: 24px; font-weight: bold;">347</p>
+                    </div>
+                    <div>
+                        <h3 style="margin-top: 0;">Average Order</h3>
+                        <p style="font-size: 24px; font-weight: bold;">Rp 35,880</p>
+                    </div>
+                </div>
+            </div>
+            
+            <h2>Top Selling Items</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Item</th>
+                        <th>Quantity Sold</th>
+                        <th>Total Revenue</th>
+                        <th>% of Sales</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Ayam Bakar Spesial</td>
+                        <td>142</td>
+                        <td>Rp 4,970,000</td>
+                        <td>40%</td>
+                    </tr>
+                    <tr>
+                        <td>Ayam Bakar Pedas</td>
+                        <td>98</td>
+                        <td>Rp 3,136,000</td>
+                        <td>25%</td>
+                    </tr>
+                    <tr>
+                        <td>Es Teh</td>
+                        <td>210</td>
+                        <td>Rp 1,680,000</td>
+                        <td>13%</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        // Login Functionality
+        function login() {
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const errorElement = document.getElementById('errorMessage');
+            
+            if (username === 'zallkaltim' && password === 'zallkaltim04') {
+                document.getElementById('loginSection').style.display = 'none';
+                document.getElementById('adminDashboard').style.display = 'block';
+                errorElement.textContent = '';
+            } else {
+                errorElement.textContent = 'Invalid username or password';
+            }
+        }
+        
+        // Logout Functionality
+        function logout() {
+            document.getElementById('loginSection').style.display = 'block';
+            document.getElementById('adminDashboard').style.display = 'none';
+            document.getElementById('username').value = '';
+            document.getElementById('password').value = '';
+        }
+        
+        // Show Section Functionality
+        function showSection(sectionId) {
+            // Hide all sections
+            document.getElementById('dashboard').style.display = 'none';
+            document.getElementById('menu').style.display = 'none';
+            document.getElementById('orders').style.display = 'none';
+            document.getElementById('reports').style.display = 'none';
+            
+            // Show selected section
+            document.getElementById(sectionId).style.display = 'block';
+            
+            // Update active nav link
+            const navLinks = document.querySelectorAll('.nav a');
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('onclick')?.includes(sectionId)) {
+                    link.classList.add('active');
+                }
+            });
+        }
+        
+        // Add Menu Item Functionality
+        function addMenuItem() {
+            const name = document.getElementById('itemName').value;
+            const category = document.getElementById('itemCategory').value;
+            const price = document.getElementById('itemPrice').value;
+            const description = document.getElementById('itemDescription').value;
+            
+            if (!name || !price) {
+                alert('Please fill in all required fields');
+                return;
+            }
+            
+            const categoryText = {
+                'main': 'Main Course',
+                'side': 'Side Dish',
+                'drink': 'Drink',
+                'dessert': 'Dessert'
+            }[category];
+            
+            const table = document.getElementById('menuItems');
+            const newRow = table.insertRow();
+            
+            const idCell = newRow.insertCell(0);
+            const nameCell = newRow.insertCell(1);
+            const categoryCell = newRow.insertCell(2);
+            const priceCell = newRow.insertCell(3);
+            const descCell = newRow.insertCell(4);
+            const actionCell = newRow.insertCell(5);
+            
+            idCell.textContent = table.rows.length;
+            nameCell.textContent = name;
+            categoryCell.textContent = categoryText;
+            priceCell.textContent = `Rp ${parseInt(price).toLocaleString('id-ID')}`;
+            descCell.textContent = description;
+            
+            actionCell.innerHTML = `
+                <button style="padding: 5px 10px; width: auto; margin-right: 5px;">Edit</button>
+                <button style="padding: 5px 10px; width: auto; background-color: #e74c3c;">Delete</button>
+            `;
+            
+            // Clear form
+            document.getElementById('itemName').value = '';
+            document.getElementById('itemPrice').value = '';
+            document.getElementById('itemDescription').value = '';
+            
+            alert('Menu item added successfully!');
+        }
+    </script>
+</body>
+</html>
